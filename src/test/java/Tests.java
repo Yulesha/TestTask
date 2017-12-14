@@ -1,13 +1,12 @@
-import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.Test;
+import ru.yandex.qatools.allure.annotations.Attachment;
 import ru.yandex.qatools.allure.annotations.Title;
 
-import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -19,11 +18,11 @@ public class Tests {
 
     @Title("Test case 1")
     @Test
-    public void test_Test_Case_1() throws InterruptedException, IOException, SQLException, ClassNotFoundException {
+    public void test_Test_Case_1() {
 
         Connection con = DBMethods.connectToDB();
         ResultSet queryResult = DBMethods.doQuery(con);
-        ArrayList<Employee> employeesDB = DBMethods.getEmployeesFromDB(con, queryResult);
+        ArrayList<Employee> employeesDB = DBMethods.getEmployeesFromDB(queryResult);
         for (Employee x:employeesDB
              ) {
             System.out.println(x);
@@ -45,11 +44,13 @@ public class Tests {
 
     @Title("Test case 2")
     @Test
-    public void test_Test_Case_2() throws InterruptedException, IOException {
+    public void test_Test_Case_2() {
         HttpURLConnection con = RequestMethods.sendRequest();
         RequestMethods.checkCode(con);
         String result = RequestMethods.checkResponse(con);
         RequestMethods.validationJson(result);
     }
+
+
 
 }

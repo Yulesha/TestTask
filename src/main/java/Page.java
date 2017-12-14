@@ -28,9 +28,14 @@ class Page {
     }
 
     @Step("compare DB data VS UI data")
-    void compareResults(ArrayList<Employee> employeesDB, ArrayList<Employee> employeesUI, ResultSet queryResult) throws SQLException {
-        compareHeaders(queryResult);
-        compareRows(employeesDB, employeesUI);
+    void compareResults(ArrayList<Employee> employeesDB, ArrayList<Employee> employeesUI, ResultSet queryResult) {
+        try {
+            compareHeaders(queryResult);
+            compareRows(employeesDB, employeesUI);
+        }
+        catch (SQLException e){
+            GeneralMethods.saveErrorLog("Connection is failed");
+        }
     }
 
     private void compareHeaders(ResultSet queryResult) throws SQLException {

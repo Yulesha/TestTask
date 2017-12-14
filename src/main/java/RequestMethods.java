@@ -1,4 +1,3 @@
-import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
 import org.hamcrest.MatcherAssert;
 import org.testng.Assert;
@@ -18,23 +17,42 @@ import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInC
 class RequestMethods {
 
     @Step("Send request")
-    static HttpURLConnection sendRequest() throws IOException {
-        URL obj = new URL("https://jsonplaceholder.typicode.com/users");
-        HttpURLConnection connection = (HttpURLConnection) obj.openConnection();
-        connection.setRequestMethod("GET");
+    static HttpURLConnection sendRequest() {
+        HttpURLConnection connection = null;
+        try {
+            URL obj = new URL("https://jsonplaceholder.typicode.com/users");
+            connection = (HttpURLConnection) obj.openConnection();
+            connection.setRequestMethod("GET");
+        }
+        catch (IOException e){
+            GeneralMethods.saveErrorLog("Sending request has problem");
+        }
         return connection;
 
     }
 
     @Step("Check response code is 200 - OK")
-    static void checkCode(HttpURLConnection con) throws IOException {
-        Assert.assertEquals(con.getResponseCode(),200);
+    static void checkCode(HttpURLConnection con) {
+        try {
+            Assert.assertEquals(con.getResponseCode(), 200);
+        }
+        catch(IOException e){
+            GeneralMethods.saveErrorLog("We can not get response");
+        }
     }
 
     @Step("Check response has 10 JSON objects")
-    static String checkResponse(HttpURLConnection con) throws IOException {
-        String response = getResponse(con);
+    static String checkResponse(HttpURLConnection con) {
+        String response = null;
+        try {
+            response = getResponse(con);
+        }
+        catch (IOException e){
+            GeneralMethods.saveErrorLog("We can not get response");
+
+        }
         JsonParser parser = new JsonParser();
+        assert response != null;
         Assert.assertEquals(parser.parse(response).getAsJsonArray().size(),10);
         return response;
     }

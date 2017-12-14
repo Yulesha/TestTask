@@ -10,37 +10,48 @@ import java.util.Properties;
 class DBMethods {
 
     @Step("Connect to DB")
-    static Connection connectToDB() throws ClassNotFoundException, SQLException {
-        Connection conn;
+    static Connection connectToDB()  {
+        Connection conn = null;
         Properties connectionProps = new Properties();
         connectionProps.put("user", "testcandidate");
         connectionProps.put("password", "Ej7mhonxAdHpNoNv");
+        try {
+            conn = DriverManager.getConnection("jdbc:mysql://188.166.161.108:3306", connectionProps);
+            System.out.println("Connected to database");
 
-        conn = DriverManager.getConnection("jdbc:mysql://188.166.161.108:3306", connectionProps);
-        System.out.println("Connected to database");
+        }
+        catch (SQLException e){
+            GeneralMethods.saveErrorLog("Connection is failed");
+
+        }
         return conn;
     }
 
-   static ResultSet doQuery(Connection con) throws SQLException {
+   static ResultSet doQuery(Connection con) {
         ResultSet select = null;
         try{
             Statement st = con.createStatement();
             select = st.executeQuery("SELECT * FROM candidate.EMPLOYEE");
         }
         catch (SQLException s){
-            System.out.println("SQL statement is not executed!");
+            GeneralMethods.saveErrorLog("SQL statement is not executed!");
         }
         return select;
     }
 
     @Step("Get employees from DB")
-    static ArrayList<Employee> getEmployeesFromDB(Connection con, ResultSet queryResult) throws SQLException {
+    static ArrayList<Employee> getEmployeesFromDB(ResultSet queryResult) {
         ArrayList<Employee> employees = new ArrayList<Employee>();
-        while (queryResult.next()){
-            employees.add(new Employee(queryResult.getString("DEPARTMENT_ID"),
-                    queryResult.getString("CHIEF_ID"),
-                    queryResult.getString("NAME"),
-                    queryResult.getString("SALARY")));
+        try {
+            while (queryResult.next()) {
+                employees.add(new Employee(queryResult.getString("DEPARTMENT_ID"),
+                        queryResult.getString("CHIEF_ID"),
+                        queryResult.getString("NAME"),
+                        queryResult.getString("SALARY")));
+            }
+        }
+        catch (SQLException e){
+            GeneralMethods.saveErrorLog("Connection is failed");
         }
         return employees;
     }
