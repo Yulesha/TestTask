@@ -23,19 +23,10 @@ public class Tests {
         Connection con = DBMethods.connectToDB();
         ResultSet queryResult = DBMethods.doQuery(con);
         ArrayList<Employee> employeesDB = DBMethods.getEmployeesFromDB(queryResult);
-        for (Employee x:employeesDB
-             ) {
-            System.out.println(x);
-        }
         WebDriver driver = GeneralMethods.createDriver();
         Page page = new Page(driver);
         page.openPage();
-        System.out.println("");
         ArrayList<Employee> employeesUI = page.getEmployeesFromUI();
-        for (Employee x:employeesUI
-                ) {
-            System.out.println(x);
-        }
         page.compareResults(employeesDB, employeesUI, queryResult);
         driver.close();
     }
