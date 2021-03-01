@@ -1,0 +1,41 @@
+{
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "country_id": {
+      "type": ["integer","null"]
+    },
+    "timezone_id": {
+      "type": ["integer","null"]
+    },
+    "username": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "surname": {
+      "type": "string"
+    },
+    "gender": {
+      "type": ["string", "null"]
+    },
+    "phone_number": {
+      "type": ["string", "null"]
+    },
+    "birthdate": {
+      "type": ["string", "null"]
+    },
+    "bonuses_allowed": {
+      "type": "boolean"
+    },
+    "is_verified": {
+      "type": "boolean"
+    }
+  }
+}
