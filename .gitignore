@@ -1,4 +1,6 @@
 # Created by .ignore support plugin (hsz.mobi)
-/.idea/
+.idea/
 /target/
 /allure-results/
+*.iml
+.DS_Store
