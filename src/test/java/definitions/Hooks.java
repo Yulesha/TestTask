@@ -3,6 +3,7 @@ package definitions;
 import com.GeneralMethods;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
+import org.openqa.selenium.WebDriver;
 
 public class Hooks {
 
@@ -13,6 +14,7 @@ public class Hooks {
 
     @After
     public void afterTest() {
-        GeneralMethods.getDriver().close();
+        WebDriver driver = GeneralMethods.getDriver();
+        if (driver != null) driver.close();
     }
 }
