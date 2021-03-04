@@ -6,6 +6,7 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.junit.Assert;
 
 public class UiDefs {
 
@@ -19,7 +20,7 @@ public class UiDefs {
 
     @When("^User types LOGIN '([^\"]*)' and PASSWORD '([^\"]*)'$")
     public void enterCreds(String login, String pass) {
-        page.enterlogin(login);
+        page.enterLogin(login);
         page.enterPass(pass);
     }
 
@@ -30,12 +31,13 @@ public class UiDefs {
 
     @Then("^Dashboard is opened$")
     public void checkPage(){
-        page.checkDashboard();
+        Assert.assertTrue(page.isDashboardUrlCorrect());
+        Assert.assertTrue(page.isDashboardDisplayed());
     }
 
     @And("^User is authorized as '([^\"]*)'$")
     public void checkAuthorization(String login) {
-        page.checkAuthorization(login);
+        Assert.assertTrue(page.isAuthorizedNameCorrect(login));
     }
 
     @When("^User click sort by column$")
@@ -50,12 +52,13 @@ public class UiDefs {
 
     @Then("^Players list is loaded$")
     public void checkList() {
-        page.checkPlayersList();
+        Assert.assertTrue(page.isPlayersListUrlCorrect());
+        Assert.assertTrue(page.isPlayersListDisplayed());
     }
 
     @Then("^List is sorted correct$")
     public void checkListSort(){
-        page.checkSort();
+        Assert.assertTrue(page.isListSortedCorrect());
 
     }
 }

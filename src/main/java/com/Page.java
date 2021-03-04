@@ -23,7 +23,7 @@ public class Page {
         driver.get("http://test-app.d6.dev.devcaz.com/admin/login");
     }
 
-    public void enterlogin(String login) {
+    public void enterLogin(String login) {
         driver.findElement(By.id("UserLogin_username")).sendKeys(login);
     }
 
@@ -35,22 +35,29 @@ public class Page {
         driver.findElement(By.xpath("//input[@name='yt0']")).click();
     }
 
-    public void checkDashboard() {
-        Assert.assertEquals("http://test-app.d6.dev.devcaz.com/configurator/dashboard/index", driver.getCurrentUrl());
-        Assert.assertTrue(driver.findElement(By.cssSelector(".page")).isDisplayed());
+    public boolean isDashboardUrlCorrect() {
+        return driver.getCurrentUrl().equals("http://test-app.d6.dev.devcaz.com/configurator/dashboard/index");
     }
 
-    public void checkAuthorization(String login) {
-        Assert.assertEquals(login, driver.findElement(By.xpath("//*[@class='dropdown text-normal nav-profile']//span")).getText());
+    public boolean isDashboardDisplayed() {
+        return driver.findElement(By.cssSelector(".page")).isDisplayed();
+    }
+
+    public boolean isAuthorizedNameCorrect(String login) {
+        return driver.findElement(By.xpath("//*[@class='dropdown text-normal nav-profile']//span")).getText().equals(login);
     }
 
     public void openPlayersList() {
         driver.findElement(By.xpath("//div[@class='page']//a[@href='/user/player/admin']")).click();
     }
 
-    public void checkPlayersList() {
-        Assert.assertEquals("http://test-app.d6.dev.devcaz.com/user/player/admin", driver.getCurrentUrl());
-        Assert.assertTrue(driver.findElement(By.id("payment-system-transaction-grid")).isDisplayed());
+    public boolean isPlayersListUrlCorrect() {
+        return driver.getCurrentUrl().equals("http://test-app.d6.dev.devcaz.com/user/player/admin");
+
+    }
+
+    public boolean isPlayersListDisplayed() {
+        return driver.findElement(By.id("payment-system-transaction-grid")).isDisplayed();
     }
 
     public void sortByDate() {
@@ -62,14 +69,13 @@ public class Page {
 
     }
 
-    public void checkSort() {
+    public boolean isListSortedCorrect() {
         ArrayList<String> dates = getDates();
-        Assert.assertTrue(Ordering.natural().isOrdered(dates));
-
+        return Ordering.natural().isOrdered(dates);
     }
 
     private ArrayList<String> getDates(){
-            ArrayList<String> dates = new ArrayList<>();
+            ArrayList<String> dates = new ArrayList<String>();
             List<WebElement> rows = driver.findElements(By.xpath("//tbody//tr"));
             for (int i=0; i<rows.size()-1; i++) {
                 dates.add(rows.get(i).findElement(By.xpath("./td[10]")).getText());
