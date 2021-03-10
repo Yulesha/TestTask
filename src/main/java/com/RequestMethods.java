@@ -6,16 +6,16 @@ import static io.restassured.RestAssured.*;
 
 public class RequestMethods {
 
-    public static Response accessTokenRequest() {
+    public static Response accessTokenRequest(String basicToken, String apiUrl) {
         JSONObject requestParams = new JSONObject();
         requestParams.put("grant_type","client_credentials");
         requestParams.put("scope","guest:default");
         return given().
                 header("Content-Type", "application/json").
-                header("Authorization", "Basic ZnJvbnRfMmQ2YjBhODM5MTc0MmY1ZDc4OWQ3ZDkxNTc1NWUwOWU6").
+                header("Authorization", "Basic " + basicToken).
                 body(requestParams.toJSONString()).
                 when().
-                post("http://test-api.d6.dev.devcaz.com/v2/oauth2/token");
+                post(apiUrl + "/v2/oauth2/token");
 
     }
 
@@ -24,20 +24,20 @@ public class RequestMethods {
 
     }
 
-    public static Response login(Player player) {
+    public static Response login(Player player, String basicToken, String apiUrl) {
         JSONObject requestParams = new JSONObject();
         requestParams.put("grant_type","password");
         requestParams.put("username", player.getUsername());
         requestParams.put("password", player.getPassword());
         return given().
                 header("Content-Type", "application/json").
-                header("Authorization", "Basic ZnJvbnRfMmQ2YjBhODM5MTc0MmY1ZDc4OWQ3ZDkxNTc1NWUwOWU6").
+                header("Authorization", "Basic " + basicToken).
                 body(requestParams.toJSONString()).
                 when().
-                post("http://test-api.d6.dev.devcaz.com/v2/oauth2/token");
+                post(apiUrl + "/v2/oauth2/token");
     }
 
-    public static Response registerNewPlayer(Player player, String token) {
+    public static Response registerNewPlayer(Player player, String token, String apiUrl) {
         JSONObject requestParams = new JSONObject();
         requestParams.put("username", player.getUsername());
         requestParams.put("password_change", player.getPassword());
@@ -51,7 +51,7 @@ public class RequestMethods {
                 header("Authorization", "Bearer " + token).
                 body(requestParams.toJSONString()).
                 when().
-                post("http://test-api.d6.dev.devcaz.com/v2/players");
+                post(apiUrl + "/v2/players");
     }
 
     public static int getUserId(Response resp) {
@@ -59,10 +59,10 @@ public class RequestMethods {
 
     }
 
-    public static Response getProfile(int id, String token) {
+    public static Response getProfile(int id, String token, String apiUrl) {
         return given().
                 header("Authorization", "Bearer " + token).
-                when().get("http://test-api.d6.dev.devcaz.com/v2/players/" + id);
+                when().get(apiUrl + "/v2/players/" + id);
     }
 
 

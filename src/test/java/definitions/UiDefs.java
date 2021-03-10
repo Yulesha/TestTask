@@ -15,7 +15,7 @@ public class UiDefs {
     @Given("^User opens login page$")
     public void openLoginPage() {
         page = new Page(GeneralMethods.getDriver());
-        page.openPage();
+        page.openPage(System.getProperty("uiUrl"));
     }
 
     @When("^User types LOGIN '([^\"]*)' and PASSWORD '([^\"]*)'$")
@@ -31,7 +31,7 @@ public class UiDefs {
 
     @Then("^Dashboard is opened$")
     public void checkPage(){
-        Assert.assertTrue(page.isDashboardUrlCorrect());
+        Assert.assertTrue(page.isDashboardUrlCorrect(System.getProperty("uiUrl")));
         Assert.assertTrue(page.isDashboardDisplayed());
     }
 
@@ -52,7 +52,7 @@ public class UiDefs {
 
     @Then("^Players list is loaded$")
     public void checkList() {
-        Assert.assertTrue(page.isPlayersListUrlCorrect());
+        Assert.assertTrue(page.isPlayersListUrlCorrect(System.getProperty("uiUrl")));
         Assert.assertTrue(page.isPlayersListDisplayed());
     }
 

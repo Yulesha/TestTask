@@ -1,7 +1,6 @@
 package com;
 
 import com.google.common.collect.Ordering;
-import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -19,8 +18,8 @@ public class Page {
        this.driver = driver;
     }
 
-    public void openPage() {
-        driver.get("http://test-app.d6.dev.devcaz.com/admin/login");
+    public void openPage(String uiUrl) {
+        driver.get(uiUrl + "/admin/login");
     }
 
     public void enterLogin(String login) {
@@ -35,8 +34,8 @@ public class Page {
         driver.findElement(By.xpath("//input[@name='yt0']")).click();
     }
 
-    public boolean isDashboardUrlCorrect() {
-        return driver.getCurrentUrl().equals("http://test-app.d6.dev.devcaz.com/configurator/dashboard/index");
+    public boolean isDashboardUrlCorrect(String uiUrl) {
+        return driver.getCurrentUrl().equals(uiUrl + "/configurator/dashboard/index");
     }
 
     public boolean isDashboardDisplayed() {
@@ -51,8 +50,8 @@ public class Page {
         driver.findElement(By.xpath("//div[@class='page']//a[@href='/user/player/admin']")).click();
     }
 
-    public boolean isPlayersListUrlCorrect() {
-        return driver.getCurrentUrl().equals("http://test-app.d6.dev.devcaz.com/user/player/admin");
+    public boolean isPlayersListUrlCorrect(String uiUrl) {
+        return driver.getCurrentUrl().equals(uiUrl + "/user/player/admin");
 
     }
 
